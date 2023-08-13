@@ -1,0 +1,6 @@
+Flask==2.0.1
+Flask-GraphQL==2.0.1
+Flask-SQLAlchemy==2.5.1
+graphene==3.0
+graphene-sqlalchemy==3.0
+SQLAlchemy==1.4.22
