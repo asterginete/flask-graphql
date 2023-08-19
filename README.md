@@ -1,15 +1,12 @@
-Certainly! Here's a README for the GraphQL backend application:
-
----
-
 # GraphQL Backend Application with Flask
 
-A simple Python backend application using Flask, SQLAlchemy, and Graphene to demonstrate GraphQL with CRUD functionality for a `Book` model.
+A simple Python backend application using Flask, SQLAlchemy, Graphene, Flask-Login, and Flask-Principal to demonstrate GraphQL with CRUD functionality and authentication & authorization for a `Book` model.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Authentication](#authentication)
 - [Endpoints](#endpoints)
 - [Running the Application](#running-the-application)
 - [Contributing](#contributing)
@@ -31,18 +28,25 @@ A simple Python backend application using Flask, SQLAlchemy, and Graphene to dem
 
 3. **Install the required packages**:
    ```bash
-   pip install Flask Flask-GraphQL Flask-SQLAlchemy graphene graphene-sqlalchemy
+   pip install Flask Flask-GraphQL Flask-SQLAlchemy graphene graphene-sqlalchemy Flask-Login Flask-Principal
    ```
 
 ## Usage
 
 ### Models
 
-The application currently supports a single model: `Book` with the following fields:
+The application supports the following models:
 
-- `id`: Integer, Primary Key
-- `title`: String
-- `author`: String
+- `Book` with fields:
+  - `id`: Integer, Primary Key
+  - `title`: String
+  - `author`: String
+
+- `User` for authentication with fields:
+  - `id`: Integer, Primary Key
+  - `username`: String, Unique
+  - `password`: String (hashed)
+  - `role`: String (e.g., 'admin')
 
 ### GraphQL Operations
 
@@ -107,9 +111,15 @@ The application currently supports a single model: `Book` with the following fie
   }
   ```
 
+## Authentication
+
+- **Login**:
+  Users can log in through the `/login` route. Only logged-in users with the 'admin' role can create books.
+
 ## Endpoints
 
 - `/graphql`: The main GraphQL endpoint. Use this to perform all CRUD operations. You can also access the GraphiQL interface here for testing and documentation.
+- `/login`: Endpoint for user login.
 
 ## Running the Application
 
@@ -119,3 +129,11 @@ The application currently supports a single model: `Book` with the following fie
    ```
 
 2. Visit `http://localhost:5000/graphql` in your browser to access the GraphiQL interface and test the CRUD operations.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
