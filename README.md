@@ -14,19 +14,13 @@ A simple Python backend application using Flask, SQLAlchemy, Graphene, Flask-Log
 
 ## Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-repo-link/graphql-flask-backend.git
-   cd graphql-flask-backend
-   ```
-
-2. **Set up a virtual environment** (optional but recommended):
+1. **Set up a virtual environment** (optional but recommended):
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
    ```
 
-3. **Install the required packages**:
+2. **Install the required packages**:
    ```bash
    pip install Flask Flask-GraphQL Flask-SQLAlchemy graphene graphene-sqlalchemy Flask-Login Flask-Principal
    ```
