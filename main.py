@@ -1,7 +1,7 @@
 from flask import Flask, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_graphql import GraphQLView
-from graphene import ObjectType, String, Int, Field, List
+from graphene import ObjectType, String, Int, Field, List, InputObjectType, NonNull
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user
 from flask_principal import Principal, Permission, RoleNeed
@@ -53,6 +53,10 @@ class BookObject(SQLAlchemyObjectType):
         model = Book
         interfaces = (graphene.relay.Node, )
 
+class BookInput(InputObjectType):
+    title = NonNull(String, description="Title of the book")
+    author = NonNull(String, description="Author of the book")
+
 class Query(ObjectType):
     node = graphene.relay.Node.Field()
     all_books = SQLAlchemyConnectionField(BookObject)
@@ -63,13 +67,18 @@ class Query(ObjectType):
 
 class CreateBook(graphene.Mutation):
     class Arguments:
-        title = String(required=True)
-        author = String(required=True)
+        book_data = BookInput(required=True)
 
     book = Field(lambda: BookObject)
 
-    def mutate(self, info, title, author):
-        book = Book(title=title, author=author)
+    @login_required
+    @admin_permission.require(http_exception=403)
+    def mutate(self, info, book_data):
+        # Simple validation: Ensure title and author are not empty strings
+        if not book_data.title.strip() or not book_data.author.strip():
+            raise Exception("Title and Author fields cannot be empty!")
+
+        book = Book(title=book_data.title, author=book_data.author)
         db.session.add(book)
         db.session.commit()
         return CreateBook(book=book)
