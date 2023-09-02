@@ -1,4 +1,4 @@
-graphql-flask-backend/
+flask-graphql
 │
 ├── app/
 │   ├── __init__.py
@@ -8,7 +8,8 @@ graphql-flask-backend/
 │   │   ├── user.py
 │   │   ├── notification.py
 │   │   ├── rate_limit.py
-│   │   └── social_auth.py
+│   │   ├── social_auth.py
+│   │   └── password_reset.py
 │   │
 │   ├── schema/
 │   │   ├── __init__.py
@@ -65,5 +66,5 @@ graphql-flask-backend/
 │
 ├── .gitignore
 ├── README.md
-├── requirements.txt
+├── Pipfile
 └── run.py
