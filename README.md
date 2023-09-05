@@ -1,133 +1,100 @@
-# GraphQL Backend Application with Flask
+# GraphQL Flask Backend Application
 
-A simple Python backend application using Flask, SQLAlchemy, Graphene, Flask-Login, and Flask-Principal to demonstrate GraphQL with CRUD functionality and authentication & authorization for a `Book` model.
+A comprehensive Python backend application using Flask, SQLAlchemy, and Graphene to demonstrate GraphQL with CRUD functionality, authentication, rate limiting, and more.
 
 ## Table of Contents
 
+- [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Authentication](#authentication)
 - [Endpoints](#endpoints)
 - [Running the Application](#running-the-application)
+- [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
 
+## Features
+
+- **GraphQL API**: Perform CRUD operations on books and users.
+- **Authentication**: Secure user registration and login using password hashing.
+- **Social Authentication**: Allow users to log in using third-party services.
+- **Rate Limiting**: Limit the number of API requests per IP to prevent abuse.
+- **Notifications**: Send and manage user notifications.
+- **Password Reset**: Generate tokens for password reset functionality.
+- **Email Service**: Utility to send emails (e.g., for password reset).
+- **Validators**: Utility functions to validate email and password formats.
+- **Helpers**: Utility functions for common tasks like generating random strings.
+
 ## Installation
 
-1. **Set up a virtual environment** (optional but recommended):
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-repo-link/graphql-flask-backend.git
+   cd graphql-flask-backend
+   ```
+
+2. **Set up a virtual environment** (optional but recommended):
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
    ```
 
-2. **Install the required packages**:
+3. **Install the required packages**:
    ```bash
-   pip install Flask Flask-GraphQL Flask-SQLAlchemy graphene graphene-sqlalchemy Flask-Login Flask-Principal
+   pip install -r requirements.txt
    ```
 
 ## Usage
 
 ### Models
 
-The application supports the following models:
-
-- `Book` with fields:
-  - `id`: Integer, Primary Key
-  - `title`: String
-  - `author`: String
-
-- `User` for authentication with fields:
-  - `id`: Integer, Primary Key
-  - `username`: String, Unique
-  - `password`: String (hashed)
-  - `role`: String (e.g., 'admin')
+- **Book**: Contains fields like `id`, `title`, and `author`.
+- **User**: Contains fields like `id`, `username`, `email`, and `role`.
+- **Notification**: Manages user notifications.
+- **APIRateLimit**: Tracks and enforces rate limits for different IP addresses.
+- **UserSocialAuth**: Stores authentication details for third-party services.
+- **PasswordResetToken**: Manages tokens for password reset functionality.
 
 ### GraphQL Operations
 
-- **Create a Book**:
-  ```graphql
-  mutation {
-    createBook(title: "Sample Book", author: "John Doe") {
-      book {
-        id
-        title
-        author
-      }
-    }
-  }
-  ```
-
-- **Update a Book**:
-  ```graphql
-  mutation {
-    updateBook(id: 1, title: "Updated Book") {
-      book {
-        id
-        title
-        author
-      }
-    }
-  }
-  ```
-
-- **Delete a Book**:
-  ```graphql
-  mutation {
-    deleteBook(id: 1) {
-      success
-    }
-  }
-  ```
-
-- **Fetch All Books**:
-  ```graphql
-  {
-    allBooks {
-      edges {
-        node {
-          id
-          title
-          author
-        }
-      }
-    }
-  }
-  ```
-
-- **Fetch a Book by Title**:
-  ```graphql
-  {
-    bookByTitle(title: "Sample Book") {
-      id
-      title
-      author
-    }
-  }
-  ```
-
-## Authentication
-
-- **Login**:
-  Users can log in through the `/login` route. Only logged-in users with the 'admin' role can create books.
+Refer to the individual GraphQL files for detailed operations, including creating, updating, deleting, and querying books and users.
 
 ## Endpoints
 
 - `/graphql`: The main GraphQL endpoint. Use this to perform all CRUD operations. You can also access the GraphiQL interface here for testing and documentation.
-- `/login`: Endpoint for user login.
 
 ## Running the Application
 
-1. Execute the Python script:
+1. **Set up the database**:
    ```bash
-   python app.py
+   flask db init
+   flask db migrate
+   flask db upgrade
    ```
 
-2. Visit `http://localhost:5000/graphql` in your browser to access the GraphiQL interface and test the CRUD operations.
+2. **Execute the Python script**:
+   ```bash
+   python run.py
+   ```
+
+3. **Visit**:
+   Open `http://localhost:5000/graphql` in your browser to access the GraphiQL interface and test the CRUD operations.
+
+## Testing
+
+Tests are located in the `tests/` directory. To run them, use:
+
+```bash
+pytest
+```
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+1. Fork the repository.
+2. Create a new branch for your features or bug fixes.
+3. Commit your changes and push to your fork.
+4. Open a pull request from your fork to the main repository.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the MIT License. See the `LICENSE` file for details.
